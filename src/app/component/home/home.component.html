@@ -1,43 +1,211 @@
-<p>
-  home works!
-</p>
+<!-- <p-toast></p-toast>
+<p-overlayPanel #op>
+  <ng-template pTemplate>
+    {{selectedKural.kural}}
+  </ng-template>
+</p-overlayPanel> -->
 
+<p-dialog header="முழு தகவல்" [(visible)]="displayMeaning" [style]="{width: '45vw'}" [baseZIndex]="10000">
 
-<div class="card">
-  <h5>Kurals - குறள்கள்0</h5>
-  <p>Filters are displayed in an overlay.</p>
-  <p-table #dt1 [value]="data" dataKey="id" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-    [loading]="loading" styleClass="p-datatable-customers p-datatable-gridlines" [paginator]="true"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [globalFilterFields]="['number','section','kural','chapter']">
-    <ng-template pTemplate="caption">
-      <div class="p-d-flex">
-        <!-- <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt1)"></button> -->
-        <span class="p-input-icon-left p-ml-auto">
-          <i class="pi pi-search"></i>
-          <!-- <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" /> -->
-
-        </span>
+  <div class="card">
+    <div class="card header">
+      <div class="number">
+        <div class="left">
+          எண்
+        </div>
+        <div class="number value">
+          {{selectedKural?.number}}
+        </div>
       </div>
-    </ng-template>
-    <ng-template pTemplate="header" let-columns>
-      <tr>
-        <th *ngFor="let col of columns">
-          {{col.header}}
-        </th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-rowData let-columns="columns">
-      <tr>
-        <td *ngFor="let col of columns">
+      <div class="section">
+        <div>
+          பிரிவு : {{selectedKural?.section}}
+        </div>
+      </div>
+      <div class="chapter">
+        <div>
+          அதிகாரம் : {{selectedKural?.chapter}}
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="kural">
+        <div class="head">
+          குறள்
+        </div>
+        <div class="content kural body">
+          <p *ngFor="let i of selectedKural?.kural | slice: 0:2"> {{ i }} </p>
+        </div>
+      </div>
+      <div class="meaning">
+        <div class="head">விளக்கம்</div>
+        <div class="subhead">மு.வரதராசர் :</div>
+
+        <div class="body">
+          {{selectedKural?.meaning?.ta_mu_va?.replace("மு.வ : ", "")}}
+        </div>
+        <div class="subhead">சாலமன் பாப்பையா :</div>
+
+        <div class="body">
+          {{selectedKural?.meaning?.ta_salamon?.replace("சாலமன் பாப்பையா : ", "")}}
+        </div>
+
+      </div>
+    </div>
+    <div class="footer">
+      <div class="english">
+        <div class="head">ஆங்கில மொழியாக்கம்</div>
+        <div class="english">{{selectedKural?.meaning?.en}}</div>
+      </div>
+    </div>
+  </div>
+
+</p-dialog>
+
+<!-- <p-dialog header="Long Content" [(visible)]="displayMeaning" [style]="{width: '50vw'}" [baseZIndex]="10000">
+
+  'எண்'
+  <p>{{selectedKural?.number}}</p>
+
+  'பிரிவு'
+  <p>{{selectedKural?.section}}</p>
+
+  'அதிகாரம்'
+  <p>{{selectedKural?.chapter}}</p>
+
+  'குறள்'
+  <p *ngFor="let i of selectedKural?.kural | slice: 0:2"> {{ i }} </p>
+
+  'விளக்கம்'
+  'மு.வரதராசர்'
+  <p>{{selectedKural?.meaning?.ta_mu_va}}</p>
+  'சாலமன் பாப்பையா'
+  <p>{{selectedKural?.meaning?.ta_salamon}}</p>
+  'ஆங்கில மொழியாக்கம்'
+  <p>{{selectedKural?.meaning?.en}}</p>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="displayBasic2=false" label="Ok" styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-dialog> -->
+
+<!-- <div class="card"> -->
+<!-- <h5>Kurals - குறள்கள்</h5> -->
+<!-- <p>Filters are displayed in an overlay.</p> -->
+<!-- <div *ngIf="data && data.length > 0"> -->
+<!-- [globalFilterFields]="['number','section','kural','chapter']" -->
+<!-- {{testData}} -->
+<!-- [frozenColumns]="cols" [scrollable]="true" scrollHeight="800px" frozenWidth="1800px" -->
+<!-- styleClass="p-datatable-customers p-datatable-gridlines" -->
+<p-table #dt1 [value]="data" [columns]="cols" dataKey="number" [rows]="10" [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[10,25,50]" [loading]="loading" [rowHover]="true" styleClass="p-datatable-sm"
+  selectionMode="single" [(selection)]="selectedKural" (onRowSelect)="onRowSelect($event)" [paginator]="true"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} kurals"
+  [globalFilterFields]="['எண்','பிரிவு','குறள்','அதிகாரம்']">
+  <ng-template pTemplate="caption">
+
+    <div class="p-d-flex">
+      குறள்கள்
+      <!-- <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt1)"></button> -->
+      <span class="p-input-icon-left p-ml-auto">
+        <i class="pi pi-search"></i>
+        <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+          placeholder="Search keyword" />
+      </span>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngFor="let col of columns" pSortableColumn="{{col.field}}" [width]="col.width">
+        <div class="p-d-flex p-jc-between p-ai-center">
+          {{ col.header }}
+          <p-sortIcon field="{{col.field}}"></p-sortIcon>
+          <!-- <p-columnFilter type="text" field="{{col.field}}" display="menu" class="p-ml-auto"></p-columnFilter> -->
+        </div>
+      </th>
+      <!-- <th *ngFor="let col of columns" [width]="col.width">
+        {{col.header}}
+      </th> -->
+    </tr>
+    <tr>
+      <!-- <th *ngFor="let col of columns" [width]="col.width">
+            <p-columnFilter type="text" field="{{col.field}}"></p-columnFilter>
+          </th> -->
+
+
+      <th *ngFor="let col of columns" [width]="col.width" [ngSwitch]="col.field">
+
+        <div *ngSwitchCase="'chapter'">
+
+          <!-- <p-columnFilter field="chapter" matchMode="equals" [showMenu]="false">
+            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+              <p-dropdown [ngModel]="value" [options]="chapters" (onChange)="filter($event.value)" placeholder="Any"
+                [showClear]="true">
+              </p-dropdown>
+            </ng-template>
+          </p-columnFilter> -->
+
+          <p-columnFilter field="chapter" matchMode="in" [showMenu]="false">
+            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+              <p-multiSelect [ngModel]="value" [options]="chapters" placeholder="Any" (onChange)="filter($event.value)">
+              </p-multiSelect>
+            </ng-template>
+          </p-columnFilter>
+
+          <!-- <p-columnFilter field="chapter" matchMode="in" [showMenu]="false">
+            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+              <p-multiSelect [ngModel]="chapters" [options]="chapters" placeholder="Any"
+                (onChange)="filter($event.value)" optionLabel="name">
+                <ng-template let-option pTemplate="item">
+                  <div class="p-multiselect-representative-option">
+                    <span class="p-ml-1">{{option}}</span>
+                  </div>
+                </ng-template>
+              </p-multiSelect>
+            </ng-template>
+          </p-columnFilter> -->
+
+        </div>
+        <div *ngSwitchCase="'section'">
+          <p-columnFilter field="section" matchMode="equals" [showMenu]="false">
+            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+
+              <p-dropdown [ngModel]="value" [options]="sections" placeholder="Any" (onChange)="filter($event.value)">
+              </p-dropdown>
+              <!-- <p-multiSelect [ngModel]="value" [options]="sections" placeholder="Any" (onChange)="filter($event.value)">
+                </p-multiSelect> -->
+            </ng-template>
+          </p-columnFilter>
+        </div>
+        <div *ngSwitchDefault>
+          <p-columnFilter type="text" field="{{col.field}}"></p-columnFilter>
+        </div>
+      </th>
+
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+
+    <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+      <td *ngFor="let col of columns" [width]="col.width" [ngSwitch]="col.field">
+        <div *ngSwitchCase="'kural'">
+          <p *ngFor="let i of rowData[col.field] | slice: 0:2"> {{ i }} </p>
+          <!-- {{rowData[col.field]}} -->
+
+        </div>
+        <div *ngSwitchDefault>
           {{rowData[col.field]}}
-        </td>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="emptymessage">
-      <tr>
-        <td colspan="7">No kurals found.</td>
-      </tr>
-    </ng-template>
-  </p-table>
-</div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="7">No kurals found.</td>
+    </tr>
+  </ng-template>
+
+</p-table>
+<!-- </div> -->
+<!-- </div> -->

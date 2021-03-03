@@ -4,8 +4,8 @@ import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 
 import { PanelModule } from 'primeng/panel';
-import { ToastModule } from 'primeng/toast';
-import { MegaMenuModule } from 'primeng/megamenu';
+//import { ToastModule } from 'primeng/toast';
+//import { MegaMenuModule } from 'primeng/megamenu';
 import { TableModule } from 'primeng/table';
 import { TreeTableModule } from 'primeng/treetable';
 import { TabViewModule } from 'primeng/tabview';
@@ -18,7 +18,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { CalendarModule } from 'primeng/calendar';
 import { SidebarModule } from 'primeng/sidebar';
-import { DynamicDialogModule } from 'primeng/dynamicdialog';
+//import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MessagesModule } from 'primeng/messages';
 import { DialogModule } from 'primeng/dialog';
@@ -48,7 +48,7 @@ import { TooltipModule } from 'primeng/tooltip';
         ButtonModule,
         CheckboxModule,
         PanelModule,
-        ToastModule,
+        //ToastModule,
         // MegaMenuModule,
         MenubarModule,
         TableModule,
@@ -62,7 +62,7 @@ import { TooltipModule } from 'primeng/tooltip';
         BreadcrumbModule,
         CalendarModule,
         SidebarModule,
-        // DynamicDialogModule,
+        //DynamicDialogModule,
         InputTextareaModule,
         MessagesModule,
         FieldsetModule,

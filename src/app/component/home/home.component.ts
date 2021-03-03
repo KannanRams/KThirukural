@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { map } from 'rxjs/operators';
 
-import { DataService, Kurals } from '../../service/data.service';
+import { chapter, DataService, kural, Kurals, section } from '../../service/data.service';
 
 @Component({
   selector: 'app-home',
@@ -10,18 +9,33 @@ import { DataService, Kurals } from '../../service/data.service';
 })
 export class HomeComponent implements OnInit {
 
+  displayMeaning: boolean = false;
   loading: boolean = false;
-  cols: any[]=[];
-  data: Kurals[]=[];
+  cols: any[] = [];
+  data: kural[] = [];
+
+  // allData: any[]=[];
+
+  chapters: chapter[] = [];
+  sections: section[] = [];
+
+  chaptersTemp: string[] = [];
+  sectionsTemp: string[] = [];
+
+  selectedKural?: kural;
+  // selectedMeaning: any;
+
+  // testData: any;
 
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
+
     this.cols = [
-      { field: 'number', header: 'No.' },
-      { field: 'section', header: 'Section' },
-      { field: 'kural', header: 'Kural' },
-      { field: 'chapter', header: 'Chapter' }
+      { field: 'number', header: 'எண்', width: 30 },
+      { field: 'section', header: 'பிரிவு', width: 70 },
+      { field: 'kural', header: 'குறள்', width: 150 },
+      { field: 'chapter', header: 'அதிகாரம்', width: 90 }
     ];
 
     this.loading = true;
@@ -41,10 +55,65 @@ export class HomeComponent implements OnInit {
   // }
 
   loadData() {
+
+    this.loading = true;
+
     this.dataService.loadData().subscribe(res => {
-      this.data = res;
+      // console.log(res.kurals);
+
+      // this.allData = res;
+
+      // console.log(this.allData);
+
+      this.chaptersTemp = res.chapters;
+
+      this.chaptersTemp.forEach(chap => {
+        this.chapters.push({ label: chap, value: chap });
+      });
+
+      this.sectionsTemp = res.sections;
+
+      this.sectionsTemp.forEach(chap => {
+        this.sections.push({ label: chap, value: chap });
+      });
+
+      // console.log(this.chapters);
+
+      this.data = res.kurals;
+      // this.testData = this.data[0].kural.toString().replace(",","\n");
+
+      //this.data[0].kural = this.testData;
+      // console.log(this.data[0].kural);
+
+      // console.log(this.testData);
+
+      // console.log(JSON.parse(this.testData));
+
+
+
+      // console.log(this.data[0].kural);
+
       this.loading = false;
+
+      // console.log(res[0]);
     });
+
+
+    // this.dataService.loadData().pipe(map((res) => {
+    //   console.log(res);
+
+    //   this.data = res;
+    //   console.log(this.data[0]);
+    //   console.log(res[0]);
+    // })).subscribe();
+
+      // res.map((res) => {
+      //     this.data = res.kurals;
+      //     console.log(this.data);
+
+      // });
+
+
       // console.log(res);
 
       // this.data = res['kurals'];
@@ -57,5 +126,22 @@ export class HomeComponent implements OnInit {
 
       //  console.log(this.data.chapters);
 
+  }
+
+  onRowSelect(event: any) {
+    // console.log(event);
+
+    //this.selectedMeaning = this.allData.filter(a=> a.kurals.number === event.data.number);
+    this.selectedKural = event.data;
+    // console.log(this.selectedKural);
+
+    // console.log(this.selectedMeaning);
+
+    this.showMeaning();
+     //this.messageService.add({ severity: 'info', summary: 'Kural Selected', detail: event.data.kural });
+  }
+
+  showMeaning() {
+    this.displayMeaning = true;
   }
 }

@@ -3,27 +3,44 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-@Injectable({  providedIn: 'root' })
+@Injectable({ providedIn: 'root' })
 export class DataService {
-    constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
-    loadData(): Observable<Kurals[]> {
-        return this.httpClient.get<Kurals[]>('../assets/json/thirukural.json');
-    }
+  loadData(): Observable<any> {
+    return this.httpClient.get<any>('../assets/thirukural.json');
+  }
 }
 
 
 
 export interface RawFormat {
   chapters: Array<string>;
+  kurals: Array<kural[]>;
   sections: Array<string>;
 }
 
-export interface Element {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+export interface kural {
+  chapter: string;
+  kural: Array<string>;
+  number: number;
+  section: string;
+  meaning: meaning;
+}
+
+export interface meaning {
+  ta_mu_va: string;
+  ta_salamon: string;
+  en: string;
+}
+export interface chapter {
+  label: string;
+  value: string;
+}
+
+export interface section {
+  label: string;
+  value: string;
 }
 
 export interface Kurals {
@@ -32,7 +49,6 @@ export interface Kurals {
   number: number;
   section: string;
 }
-
 
 
 const KURAL_DETAILS: Kurals[] = [{
