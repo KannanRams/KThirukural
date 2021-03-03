@@ -8,7 +8,7 @@ export class DataService {
   constructor(private httpClient: HttpClient) { }
 
   loadData(): Observable<any> {
-    return this.httpClient.get<any>('../assets/thirukural.json');
+    return this.httpClient.get<any>('/assets/thirukural.json');
   }
 }
 
