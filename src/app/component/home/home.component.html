@@ -6,11 +6,16 @@
 </p-overlayPanel> -->
 
 <!-- just for github error fix -->
+<!-- [style]="{width: '45vw'}" -->
+<!-- class="container" class="container"-->
+<!-- [baseZIndex]="10000" -->
+<!-- [breakpoints]="{'960px': '75vw'}" [style]="{width: '50vw'}" -->
+<p-dialog header="முழு தகவல்" [(visible)]="displayMeaning"
+>
 
-<p-dialog header="முழு தகவல்" [(visible)]="displayMeaning" [style]="{width: '45vw'}" [baseZIndex]="10000">
-
+<!-- <div class="container"> -->
   <div class="card">
-    <div class="card header">
+    <div class="header">
       <div class="number">
         <div class="left">
           எண்
@@ -35,18 +40,18 @@
         <div class="head">
           குறள்
         </div>
-        <div class="content kural body">
-          <p *ngFor="let i of selectedKural?.kural | slice: 0:2"> {{ i }} </p>
+        <div class="body">
+          <div *ngFor="let i of selectedKural?.kural | slice: 0:2"> {{ i }} </div>
         </div>
       </div>
       <div class="meaning">
-        <div class="head">விளக்கம்</div>
-        <div class="subhead">மு.வரதராசர் :</div>
+        <!-- <div class="head">விளக்கம்</div> -->
+        <div class="subhead">உரை : மு.வரதராசர் </div>
 
         <div class="body">
           {{selectedKural?.meaning?.ta_mu_va?.replace("மு.வ : ", "")}}
         </div>
-        <div class="subhead">சாலமன் பாப்பையா :</div>
+        <div class="subhead">உரை : சாலமன் பாப்பையா</div>
 
         <div class="body">
           {{selectedKural?.meaning?.ta_salamon?.replace("சாலமன் பாப்பையா : ", "")}}
@@ -55,13 +60,13 @@
       </div>
     </div>
     <div class="footer">
-      <div class="english">
+
         <div class="head">ஆங்கில மொழியாக்கம்</div>
-        <div class="english">{{selectedKural?.meaning?.en}}</div>
-      </div>
+        <div class="body">{{selectedKural?.meaning?.en}}</div>
+
     </div>
   </div>
-
+<!-- </div> -->
 </p-dialog>
 
 <!-- <p-dialog header="Long Content" [(visible)]="displayMeaning" [style]="{width: '50vw'}" [baseZIndex]="10000">
@@ -188,10 +193,10 @@
 
   <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
 
-    <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+    <tr class="row" [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
       <td *ngFor="let col of columns" [width]="col.width" [ngSwitch]="col.field">
         <div *ngSwitchCase="'kural'">
-          <p *ngFor="let i of rowData[col.field] | slice: 0:2"> {{ i }} </p>
+          <div class="table-kural" *ngFor="let i of rowData[col.field] | slice: 0:2"> {{ i }} </div>
           <!-- {{rowData[col.field]}} -->
 
         </div>
